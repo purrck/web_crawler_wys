@@ -1,15 +1,31 @@
-
 const { handleRequestByPromise } = require('../request/request')
-async function init(url) {
-  const res = await handleRequestByPromise({ url })
-  console.log('res', res)
+const Queue = require('../lib/Queue')
+const fs = require('fs')
+const path = require('path')
+const axios = require('../request/axios')
 
+async function init()
+  // console.log('file', file)
+  const url = 'http://10.0.6.155:9999/cdc-covid-eew/tip/getCrossBorderHKMonitorPointPage'
+
+  const res = await axios(url, {
+    headers: {
+      ['Content-Type']: 'application/json',
+    },
+  })
+  console.log('res', res)
+  // let arr = new Queue()
+  // arr.push('1')
+  // arr.push('1')
+  // arr.push('1')
+  // arr.pop()
   // base64网站解密
-  base64 = desDecrypt(res);
-  console.log('base64', base64);
+  // base64 = desDecrypt(res)
+  // console.log('base64', base64)
 }
-init('https://pppt.wloibyj.cn//tp/siyuefulitu/yazhou/1847/20.jpg.txt')
+init('https://pppt.wloibyj.cn//tp/girl/%E7%AC%AC10%E6%9C%9F%E5%98%89%E5%AE%9D%E8%B4%9D%E5%84%BF&amp.txt')
 // (function (src) {
+let api = 'cdc-covid-eew/tip/getCrossBorderHKMonitorPointPage'
 //   const cheerio = require('cheerio');
 //   $ = cheerio.load(' <div id="container"  style=" width:300px " ><div class="chapterGroup"><div class="chapter"><img src="1" style=" height:30px " width="33"/> <img src="2" width="34" height="30" /><img src="3" width="35" height="30" /></div></div></div>');
 //   const imgList = $('#container ').find('img')
