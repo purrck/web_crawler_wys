@@ -18,10 +18,56 @@ async function mkmydir(type: string, dir: string) {
     fs.mkdirSync(`_dist/${type}/${dir}`)
   }
 }
+interface dataObj {
+  data: any
+  title: string
+}
+const downloadWithType = (type: string, { data, title }: dataObj, tarDir: string) => {
+  const { fixedFile } = SPIDER_TYPE[type]
+  switch (type) {
+    case 'TEXT':
+      downloadText(data, title, tarDir).then(() => {
+        // if (i == chapterList.length - 1) {
+        //   logger(`${tarDir}】,当前${pageNum}分页下载完毕---`, '', true)
+        // }
+      })
+      break
+    case 'VIDEO':
+      downloadVideoUrl(data, title, tarDir, fixedFile).then(() => {
+        // if (i == chapterList.length - 1) {
+        //   logger(`${tarDir}】,当前${pageNum}分页下载完毕---`, '', true)
+        // }
+      })
+      break
+    case 'TEXT':
+      downloadText(data, title, tarDir).then(() => {
+        // if (i == chapterList.length - 1) {
+        //   logger(`${tarDir}】,当前${pageNum}分页下载完毕---`, '', true)
+        // }
+      })
+      break
+    case 'IMAGE':
+      let length = data.length
+      if (!length) return
+      if (fs.existsSync(`${tarDir}/${title}`)) {
+        logger('该文件夹存在了')
+        // 是否该补全
+        let file1 = fs.readdirSync(`${tarDir}/${title}`)
+        if (file1.length == data.length) {
+          logger('并且文件数目齐全')
+          return
+        }
+      } else {
+        fs.mkdirSync(`${tarDir}/${title}`)
+      }
+      downloadAllImg(data, title, tarDir)
+      break
+  }
+}
 
 async function init(startPage: number, endPage: number, type: string = 'TEXT'): Promise<void> {
   // console.time('mkmydir')
-  const { site, target, dir, fixedFile } = SPIDER_TYPE[type]
+  const { site, dir, fixedFile } = SPIDER_TYPE[type]
   await mkmydir(type, dir)
   logger('-------start-------', `从第${endPage}到${startPage}`, true)
   logger(`一共 ${Math.abs(endPage - startPage) + 1}页`, true)
@@ -35,7 +81,7 @@ async function init(startPage: number, endPage: number, type: string = 'TEXT'): 
     // 拼接完整url
     let pageUrl = `${site}${pageNum != 1 ? `-${pageNum}` : ''}.html`
     logger(`当前${pageNum}分页-开始`, 'pageUrl', true)
-    const chapterList = await getChapterData(pageUrl, target)
+    const chapterList = await getChapterData(pageUrl, type)
     logger(`"当前第${pageNum}分页章节数量`, chapterList.length, true)
     if (type === 'TEXT') chapterList.reverse()
     //循环章节获取内容
@@ -45,40 +91,10 @@ async function init(startPage: number, endPage: number, type: string = 'TEXT'): 
       const item = chapterList[i]
       // console.log('分页章节---inner---path', item.path)
       // 需要研究并发问题 加快访问下载速度
-      const res = await getActData(item.path, type)
-      logger(`"得到第${pageNum}分页第${i}章节内容,开始下载`, true)
-      switch (type) {
-        case 'VIDEO':
-          downloadVideoUrl(res, item.title, tarDir, fixedFile).then(() => {
-            if (i == chapterList.length - 1) {
-              logger(`${tarDir}】,当前${pageNum}分页下载完毕---`, '', true)
-            }
-          })
-          break
-        case 'TEXT':
-          downloadText(res, item.title, tarDir).then(() => {
-            if (i == chapterList.length - 1) {
-              logger(`${tarDir}】,当前${pageNum}分页下载完毕---`, '', true)
-            }
-          })
-          break
-        case 'IMAGE':
-          let length = res.length
-          if (!length) continue
-          if (fs.existsSync(`${tarDir}/${item.title}`)) {
-            logger('该文件夹存在了')
-            // 是否该补全
-            let file1 = fs.readdirSync(`${tarDir}/${item.title}`)
-            if (file1.length == res.length) {
-              logger('并且文件数目齐全')
-              continue
-            }
-          } else {
-            fs.mkdirSync(`${tarDir}/${item.title}`)
-          }
-          downloadAllImg(res, item.title, tarDir)
-          break
-      }
+      getActData(item.path, type).then((res: any) => {
+        logger(`"得到第${pageNum}分页第${i}章节内容,开始下载`, true)
+        downloadWithType(type, { data: res, title: item.title }, tarDir)
+      })
     }
     // console.log(`当前${pageNum}分页下载完毕`);
   }

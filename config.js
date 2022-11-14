@@ -24,5 +24,13 @@ module.exports = {
       dir: 'mvzb',
       fixedFile: 'url1',
     },
+    BT: {
+      site: 'https://www.188758.xyz/search.php?keyword=%E8%BD%AF%E8%BD%AF%E5%AD%A6',
+      target: '.movie_list',
+      target_inner: '.download .card-body a',
+      label: 'a',
+      dir: 'btDownload',
+      fixedFile: 'btList2',
+    },
   },
 }
