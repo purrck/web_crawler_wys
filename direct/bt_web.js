@@ -39,7 +39,7 @@ function dealPromiseLimit(type, limit = 10, tarDir, fixedFile) {
           return getActData(item.path, type).then((res) => {
             const [torrent, btLink, title] = res
             console.log('[torrent, btLink, title]', [torrent, btLink, title])
-            downloadBT(torrent, title, tarDir)
+            // downloadBT(torrent, title, tarDir)
             downloadVideoUrl([btLink, torrent], title, tarDir, fixedFile)
             return true
           })
@@ -75,7 +75,7 @@ async function init(startPage, endPage, type = 'TEXT') {
     let pageUrl = `${site}${pageNum != 1 ? `&page=${pageNum}` : ''}`
     logger(`当前${pageNum}分页-开始`, pageUrl, true)
     let chapterList = await getChapterData(pageUrl, type)
-    // logger(`"当前第${pageNum}分页章节数量`, chapterList.length, true)
+    logger(`"当前第${pageNum}分页章节数量`, chapterList.length, true)
     chapterList = chapterList?.length && chapterList.map((e) => {
       return {
         path: !e.path.includes('http') ? 'https://www.188758.xyz' + e.path : e.path,
@@ -114,7 +114,7 @@ async function initForIds(ids, type = 'BT') {
 
 // init(1, 1, 'TEXT') //设置页数 类型
 // init(1, 1, 'IMAGE') //设置页数
-init(1, 2, 'BT') //设置页数
+init(1, 4, 'BT') //设置页数
 // initForIds(['8309997459873557', '227506873197853'], 'BT') //设置页数
 
 //

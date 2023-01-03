@@ -6,6 +6,7 @@ const { desDecrypt } = require('./encrypt.js')
 const { Buffer } = require('buffer')
 const logger = require('../lib/logger')
 const http = require('http')
+const https = require('https')
 
 const { dealFileName, gotAUnCallingFileName } = require('./index')
 // 图片的标题也要分文件夹
@@ -102,7 +103,7 @@ function downloadBT(paths, title, tarDir = 'BT') {
     logger(`下载这一bt【newName】---]`,newName)
     // 用流的概念去读取文件 存储文件
     const fileTor = fs.createWriteStream(newName)
-    http.get(file, (response) => {
+    https.get(file, (response) => {
       response.pipe(fileTor)
       resolve(true)
     })

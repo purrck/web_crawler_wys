@@ -25,12 +25,12 @@ module.exports = {
       fixedFile: 'url1',
     },
     BT: {
-      site: 'https://www.188758.xyz/search.php?keyword=%E8%BD%AF%E8%BD%AF%E5%AD%A6',
+      site: 'https://www.188758.xyz/search.php?keyword=%E9%93%83%E6%9C%A8%E7%BE%8E%E5%92%B2',
       target: '.movie_list',
       target_inner: '.download .card-body a',
       label: 'a',
       dir: 'btDownload',
-      fixedFile: 'btList2',
+      fixedFile: 'btList_linmumeilin',
     },
   },
 }
