@@ -1,5 +1,9 @@
-const baseUrl = 'https://pwa.xartbmsm.com/'
-
+const baseUrl = ''
+/**
+ * puppeteer实际登录
+ * @param {*} config 
+ * @returns 
+ */
 async function login(config = { username: '', password: '' }) {
   try {
     const puppeteer = require("puppeteer");

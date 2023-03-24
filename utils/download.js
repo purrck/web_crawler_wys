@@ -90,25 +90,7 @@ function downloadText(data, title, tarDir = 'TEXT') {
     })
   })
 }
-function downloadBT(paths, title, tarDir = 'BT') {
-  return new Promise(async (resolve, reject) => {
-    // 下载这一章节的书
-    const file = 'https://www.188758.xyz' + paths
-    logger(`下载这一bt【file】---]`,file)
 
-    const torFilePath = `./${tarDir}/${title}.torrent`
-    const torFullFilePath = path.resolve('./', torFilePath)
-    // logger(`下载这一bt【${title}】---]`, torFullFilePath, true)
-    const newName = await gotAUnCallingFileName(torFullFilePath)
-    logger(`下载这一bt【newName】---]`,newName)
-    // 用流的概念去读取文件 存储文件
-    const fileTor = fs.createWriteStream(newName)
-    https.get(file, (response) => {
-      response.pipe(fileTor)
-      resolve(true)
-    })
-  })
-}
 function downloadVideoUrl(data, title, tarDir = 'VIDEO', fixedFile) {
   return new Promise((resolve, reject) => {
     // 下载这一章节的书
@@ -127,6 +109,26 @@ function downloadVideoUrl(data, title, tarDir = 'VIDEO', fixedFile) {
     fs.appendFile(`./${tarDir}/${fixedFile || sTitle}.txt`, chatper, (error) => {
       if (error) return logger('写入文件失败,原因是' + error.message)
       // logger(`第${page}页，写入成功${i + 1}次`);
+      resolve(true)
+    })
+  })
+}
+
+function downloadBT(paths, title, tarDir = 'BT') {
+  return new Promise(async (resolve, reject) => {
+    // 下载这一章节的书
+    const file = 'https://www.com' + paths
+    logger(`下载这一bt【file】---]`,file)
+
+    const torFilePath = `./${tarDir}/${title}.torrent`
+    const torFullFilePath = path.resolve('./', torFilePath)
+    // logger(`下载这一bt【${title}】---]`, torFullFilePath, true)
+    const newName = await gotAUnCallingFileName(torFullFilePath)
+    logger(`下载这一bt【newName】---]`,newName)
+    // 用流的概念去读取文件 存储文件
+    const fileTor = fs.createWriteStream(newName)
+    https.get(file, (response) => {
+      response.pipe(fileTor)
       resolve(true)
     })
   })

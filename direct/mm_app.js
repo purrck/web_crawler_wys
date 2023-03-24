@@ -2,7 +2,7 @@
 
 const account = { password: '', username: '' }
 const { downloadImg } = require('../utils/download')
-const { login } = require('../action/login')
+const { login } = require('../utils/login')
 process.setMaxListeners(0)
 process.on('warning', e => console.warn(e.stack))
 

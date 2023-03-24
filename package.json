@@ -7,9 +7,7 @@
     "dev": "ts-node  bin.ts",
     "main": "node ./direct/main.ts",
     "bt": "node ./direct/bt_web.js",
-    "test2": "node ./direct/test2.js",
     "app": "node ./direct/app.js",
-    "mtest": "node ./direct/test.js",
     "test": "jest"
   },
   "keywords": [],

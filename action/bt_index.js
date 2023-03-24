@@ -8,16 +8,11 @@ const { Buffer } = require('buffer')
 
 // Using the escape function to the string
 // const iconv = require('iconv-lite');
-// https://www.gc352.xyz/movie.php?class=guochan&id=5472677364014089  单个下载
-// https://www.188758.xyz//search.php?keyword=xxx&page=1 分页下载
-// https://www.gc352.xyz/list.php?class=guochan&page=1
 const buffTransferCN = (buf) => {
   let str = Buffer.from(buf, 'base64').toString()
   // console.log(Object.keys(querystring))
   str = querystring.escape(str)
-  // console.log('1111', str)
   str = querystring.unescape(str)
-  // console.log('2222', str)
   return str
 }
 async function getChapterData(url, type) {

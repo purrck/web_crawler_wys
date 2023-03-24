@@ -77,17 +77,6 @@ async function getActData(url, type) {
 	const spider_type = SPIDER_TYPE[type]
 	// const superagent = require('superagent');
 	const homeBody = await handleRequestByPromise({ url })
-	// const homeBody = await new Promise((reslove, reject) => {
-	//   superagent.get('https://www.bmb68.com/' + url)
-	//     // .send({ name: 'Manny', species: 'cat' }) // sends a JSON post body
-	//     .set('cookie', '_gid=GA1.2.1966518545.1654166047')
-	//     .set('cookie', '_ga=GA1.2.127162952.1654166047')
-	//     .end((err, res) => {
-	//       // console.log('superagent', res)
-	//       reslove(res)
-	//       // Calling the end function will send the request
-	//     });
-	// })
 	// console.log('分页章节---inner---homeBody', homeBody)
 
 	// homeBody = iconv.decode(homeBody, "GBK")

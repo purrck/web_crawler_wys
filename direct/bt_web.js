@@ -21,6 +21,14 @@ async function mkmydir(type, dir) {
     fs.mkdirSync(`_dist/${type}/${dir}`)
   }
 }
+/**
+ * 处理下载主题内容的并发, 防止并发过大引起的性能问题以及稳定性问题
+ * @param {*} type 文件下载类型
+ * @param {*} limit 最大并发限制
+ * @param {*} tarDir 目标文件夹
+ * @param {*} fixedFile 是否固定文件名
+ * @returns 
+ */
 function dealPromiseLimit(type, limit = 10, tarDir, fixedFile) {
   console.log('dealPromiseLimit --- init')
   const dataList = []
@@ -59,7 +67,12 @@ function dealPromiseLimit(type, limit = 10, tarDir, fixedFile) {
     })
   }
 }
-
+/**
+ * 程序的init
+ * @param {*} startPage 开始的页数
+ * @param {*} endPage 尾页
+ * @param {*} type 下载的文件类型
+ */
 async function init(startPage, endPage, type = 'TEXT') {
   console.time('programMain')
   const { site, dir, fixedFile } = SPIDER_TYPE[type]
@@ -78,7 +91,7 @@ async function init(startPage, endPage, type = 'TEXT') {
     logger(`"当前第${pageNum}分页章节数量`, chapterList.length, true)
     chapterList = chapterList?.length && chapterList.map((e) => {
       return {
-        path: !e.path.includes('http') ? 'https://www.188758.xyz' + e.path : e.path,
+        path: !e.path.includes('http') ? 'https://www.com' + e.path : e.path,
         title: e.title,
       }
     }) || []
@@ -91,6 +104,12 @@ async function init(startPage, endPage, type = 'TEXT') {
   logger('-------end-------', '', true)
   console.timeEnd('programMain')
 }
+/**
+ * 程序的init
+ * @param {*} startPage 开始的页数
+ * @param {*} endPage 尾页
+ * @param {*} type 下载的文件类型
+ */
 async function initForIds(ids, type = 'BT') {
   const { site, target, dir, fixedFile } = SPIDER_TYPE[type]
   await mkmydir(type, dir)
@@ -98,7 +117,7 @@ async function initForIds(ids, type = 'BT') {
   const tarDir = `_dist/${type}/${dir}`
   for (let i = 0; i < ids.length; i++) {
     let path = ids[i]
-    !path.includes('http') ? (path = 'https://www.188758.xyz/movie.php?class=guochan&id=' + path) : ''
+    !path.includes('http') ? (path = 'https://www.xyz/movie.php?class=guochan&id=' + path) : ''
     getActData(path, type).then((res) => {
       console.log('getActData--resresresres', res)
       const [torrent, btLink, title] = res
